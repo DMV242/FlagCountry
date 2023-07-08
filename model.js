@@ -7,7 +7,7 @@ export const state = {
 export const fecthCountries = async function () {
   try {
     const res = await fetch("https://restcountries.com/v2/all");
-    if (!res.ok) throw new Error("Something wrong !! 😭😭😭");
+    if (!res.ok) throw new Error("Something went wrong !! 😭😭😭");
     const dataJson = await res.json();
     state.countries = dataJson;
   } catch (err) {
@@ -17,9 +17,8 @@ export const fecthCountries = async function () {
 
 export const fecthCountriesByRegion = async function (region) {
   try {
-    console.log(region);
     const res = await fetch(`https://restcountries.com/v2/region/${region}`);
-    if (!res.ok) throw new Error("Something wrong !! 😭😭😭");
+    if (!res.ok) throw new Error("Something wrong reset again please!! 😭😭😭");
     const dataJson = await res.json();
     state.FilterCountries = dataJson;
   } catch (err) {
@@ -30,7 +29,10 @@ export const fecthCountriesByRegion = async function (region) {
 export const fecthCountriesBySearch = async function (name) {
   try {
     const res = await fetch(`https://restcountries.com/v2/name/${name}`);
-    if (!res.ok) throw new Error("Something wrong!! 😭😭😭");
+    if (!res.ok)
+      throw new Error(
+        "Country Not Found !! Search for another country sir 😊😊!"
+      );
     const dataJson = await res.json();
     state.CountrySearch = dataJson;
   } catch (err) {

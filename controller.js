@@ -9,7 +9,7 @@ const ControlCards = async function () {
     await model.fecthCountries();
     CardsView.render(model.state.countries);
   } catch (err) {
-    console.log(err);
+    CardsView.renderError(err.message);
   }
 };
 
@@ -22,7 +22,7 @@ const controlCountriesByRegion = async function (region) {
     await model.fecthCountriesByRegion(region);
     CardsView.render(model.state.FilterCountries);
   } catch (err) {
-    console.log(err);
+    CardsView.renderError(err.message);
   }
 };
 
@@ -36,7 +36,7 @@ const ControlCountriesBySearch = async function (name) {
     await model.fecthCountriesBySearch(name);
     CardsView.render(model.state.CountrySearch);
   } catch (err) {
-    console.log(err);
+    CardsView.renderError(err.message);
   }
 };
 
