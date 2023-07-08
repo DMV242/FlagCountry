@@ -1,71 +1,49 @@
-"use strict";
+import * as model from "./model.js";
+import CardsView from "./view/CardsView.js";
+import SearchView from "./view/SearchView.js";
+import SelectView from "./view/SelectView.js";
 
-const cardContainer = document.querySelector(".cards");
-const selectFiedl = document.querySelector(".select");
-const fecthCountry = async function () {
-	const res = await fetch("https://restcountries.com/v2/all");
-	if (!res.ok) return;
-	const dataJson = await res.json();
-	const markup = dataJson
-		.map((data) => {
-			return `
-    				<a href="card.html/#${data.alpha3Code}" class="card">
-					<div class="card__flag">
-						<img
-							src="${data.flag}"
-							alt="${data.name}"
-						/>
-					</div>
-					<div class="card__description">
-						<h2>${data.name}</h2>
-						<ul>
-							<li>Population: ${data.population}</li>
-							<li>Region: ${data.region}</li>
-							<li>Capital: ${data.capital} </li>
-						</ul>
-					</div>
-				</a>
-    `;
-		})
-		.join("");
-
-	cardContainer.insertAdjacentHTML("afterbegin", markup);
+const ControlCards = async function () {
+  try {
+    CardsView.renderSpinner();
+    await model.fecthCountries();
+    CardsView.render(model.state.countries);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-selectFiedl.addEventListener("change", async function (e) {
-	e.preventDefault();
-	const region = e.target.value;
-	if (!region) {
-		fecthCountry();
-		return;
-	}
-	const res = await fetch(`https://restcountries.com/v2/region/${region}`);
-	if (!res.ok) return;
-	const dataJson = await res.json();
-	const markup = dataJson
-		.map((data) => {
-			return `
-    				<a href="card.html/#${data.alpha3Code}" class="card">
-					<div class="card__flag">
-						<img
-							src="${data.flag}"
-							alt="${data.name}"
-						/>
-					</div>
-					<div class="card__description">
-						<h2>${data.name}</h2>
-						<ul>
-							<li>Population: ${data.population}</li>
-							<li>Region: ${data.region}</li>
-							<li>Capital: ${data.capital} </li>
-						</ul>
-					</div>
-				</a>
-    `;
-		})
-		.join("");
+const controlCountriesByRegion = async function (region) {
+  try {
+    if (!region) {
+      CardsView.render(model.state.countries);
+      return;
+    }
+    await model.fecthCountriesByRegion(region);
+    CardsView.render(model.state.FilterCountries);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-	cardContainer.innerHTML = markup;
-});
+const ControlCountriesBySearch = async function (name) {
+  try {
+    if (!name) {
+      CardsView.render(model.state.countries);
+      return;
+    }
+    CardsView.renderSpinner();
+    await model.fecthCountriesBySearch(name);
+    CardsView.render(model.state.CountrySearch);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-// fecthCountry();
+const init = function () {
+  SelectView.handleRegionField(controlCountriesByRegion);
+  SearchView.handleSearch(ControlCountriesBySearch);
+};
+
+init();
+ControlCards();
