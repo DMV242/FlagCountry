@@ -2,6 +2,7 @@ export const state = {
   countries: [],
   FilterCountries: [],
   CountrySearch: [],
+  CurrentCardCountry: {},
 };
 
 export const fecthCountries = async function () {
@@ -35,6 +36,20 @@ export const fecthCountriesBySearch = async function (name) {
       );
     const dataJson = await res.json();
     state.CountrySearch = dataJson;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const fecthCountry = async function (hash) {
+  try {
+    const res = await fetch(`https://restcountries.com/v2/alpha/${hash}`);
+    if (!res.ok)
+      throw new Error(
+        "Country Not Found !! Search for another country sir 😊😊!"
+      );
+    const dataJson = await res.json();
+    state.CurrentCardCountry = dataJson;
   } catch (err) {
     throw err;
   }
