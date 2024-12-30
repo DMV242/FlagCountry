@@ -7,7 +7,7 @@ class CardsView extends View {
     const markup = this._data
       .map((data) => {
         return `
-    				<a href="card.html/#${data.alpha3Code}" class="card">
+    				<a href="card.html#${data.alpha3Code}" class="card">
 					<div class="card__flag">
 						<img
 							src="${data.flag}"
