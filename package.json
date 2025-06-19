@@ -2,7 +2,6 @@
   "name": "flagcountry",
   "version": "1.0.0",
   "description": "Un projet pour afficher tous les pays du monde",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html card.html"
