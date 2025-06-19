@@ -16,6 +16,12 @@ export const fecthCountries = async function () {
   }
 };
 
+export const getCountriesByPage = function (page = 1) {
+  const start = (page - 1) * 20; // 0-indexed start
+  const end = page * 20;
+  return state.countries.slice(start, end);
+};
+
 export const fecthCountriesByRegion = async function (region) {
   try {
     const res = await fetch(`https://restcountries.com/v2/region/${region}`);
